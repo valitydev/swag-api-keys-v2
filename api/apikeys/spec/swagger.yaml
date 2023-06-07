@@ -1,0 +1,95 @@
+---
+swagger: "2.0"
+info:
+  version: "0.1.0"
+  title: Vality Api Keys API
+  description:
+    $ref: './docs/errors.md'
+  termsOfService: "https://vality.dev/"
+  contact:
+    name: Technical support team
+    email: support@vality.dev
+    url: "https://api.vality.dev"
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+host: api.vality.dev
+basePath: /apikeys/v2
+schemes:
+  - https
+consumes:
+  - application/json; charset=utf-8
+produces:
+  - application/json; charset=utf-8
+securityDefinitions:
+  bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: >
+      Use [JWT](https://jwt.io) for call authentication. The corresponding key is passed in the header.
+
+      ```shell
+       Authorization: Bearer {YOUR_API_KEY_JWT}
+      ```
+
+security:
+  - bearer: []
+responses:
+  BadRequest:
+    description: Invalid input data for operation
+    schema:
+      $ref: "#/definitions/BadRequest"
+  NotFound:
+    description: The content you are looking for was not found
+  Unauthorized:
+    description: Authorization error
+parameters:
+  requestID:
+    name: X-Request-ID
+    in: header
+    description: Unique identifier of the request to the system
+    required: true
+    type: string
+    maxLength: 32
+    minLength: 1
+  deadline:
+    name: X-Request-Deadline
+    in: header
+    description: Maximum request processing time
+    required: false
+    type: string
+    maxLength: 40
+    minLength: 1
+  apiKeyId:
+    name: apiKeyId
+    in: path
+    description: Идентификатор ключа
+    required: true
+    schema:
+      $ref: "#/definitions/ApiKeyID"
+  apiKeyRevokeToken:
+    name: apiKeyRevokeToken
+    in: query
+    description: Токен отзыва ключа
+    required: true
+    schema:
+      $ref: "#/definitions/RevokeToken"
+  partyId:
+    name: partyId
+    in: path
+    description: Идентификатор участника
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 40
+    example: |
+      bdaf9e76-1c5b-4798-b154-19b87a61dc94
+
+tags:
+  - name: apiKeys
+    x-displayName: API-ключи
+  - name: errorCodes
+    x-displayName: Коды ошибок
+    description:
+      $ref: './docs/errors.md'
