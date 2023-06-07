@@ -13,8 +13,10 @@ get:
         Фильтр по статусу ключа. По умолчанию `active`.
       in: query
       required: false
-      schema:
-        $ref: '#/definitions/ApiKeyStatus'
+      type: string
+      enum:
+        - Active
+        - Revoked
   responses:
     '200':
       description: Ключи найдены

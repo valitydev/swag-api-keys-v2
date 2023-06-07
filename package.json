@@ -1,10 +1,10 @@
 {
-  "name": "@vality/sswag-api-keys-v2",
+  "name": "@vality/swag-api-keys-v2",
   "version": "0.1.1",
   "scripts": {
     "build": "node ./scripts/build.js",
     "swagger": "swagger-repo",
-    "test": "swagger-repo validate --basedir api/apikeys/spec/ && swagger-repo validate --basedir api/payres/spec/",
+    "test": "swagger-repo validate --basedir api/apikeys/spec/",
     "start": "gulp serve",
     "codegen": "vality-openapi generate ./dist/api/apikeys/swagger.json"
   },
