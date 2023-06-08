@@ -1,0 +1,61 @@
+---
+get:
+  summary: Перечислить ключи организации
+  operationId: listApiKeys
+  tags:
+    - apiKeys
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyId'
+    - name: status
+      description: |
+        Фильтр по статусу ключа. По умолчанию `active`.
+      in: query
+      required: false
+      type: string
+      enum:
+        - Active
+        - Revoked
+  responses:
+    '200':
+      description: Ключи найдены
+      schema:
+        type: object
+        required:
+          - results
+        properties:
+          results:
+            type: array
+            items:
+              $ref: '#/definitions/ApiKey'
+    '401':
+      $ref: "#/responses/Unauthorized"
+    '404':
+      $ref: "#/responses/NotFound"
+    '400':
+      $ref: '#/responses/BadRequest'
+
+post:
+  summary: Выпустить новый ключ
+  operationId: issueApiKey
+  tags:
+    - apiKeys
+  parameters:
+    - $ref: '#/parameters/partyId'
+    - name: apiKey
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/ApiKey'
+  responses:
+    '200':
+      description: Ключ выпущен
+      schema:
+        allOf:
+          - $ref: '#/definitions/ApiKey'
+          - $ref: '#/definitions/AccessToken'
+    '401':
+      $ref: "#/responses/Unauthorized"
+    '400':
+      $ref: '#/responses/BadRequest'
