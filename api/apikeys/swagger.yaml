@@ -1,0 +1,351 @@
+swagger: '2.0'
+info:
+  version: 0.1.0
+  title: Vality Api Keys API
+  description: |
+    Vality API Keys Management API является интерфейсом для управления набором API-ключей, используемых для авторизации запросов к основному API с ваших бэкенд-сервисов. Любые сторонние приложения, включая ваш личный кабинет, являются внешними приложениями-клиентами данного API.
+    Мы предоставляем REST API поверх HTTP-протокола, схема которого описывается в соответствии со стандартом [OpenAPI 3][OAS3]. Коды возврата описываются соответствующими HTTP-статусами. Платформа принимает и возвращает значения JSON в теле запросов и ответов.
+    [OAS3]: https://swagger.io/specification/
+    ## Идентификатор запроса
+    При любом обращении к API в заголовке `X-Request-ID` соответствующего запроса необходимо передать его уникальный идентификатор:
+    ```
+        X-Request-ID: 37d735d4-0f42-4f05-89fa-eaa478fb5aa9
+    ```
+    ## Формат содержимого
+    Любой запрос к API должен выполняться в кодировке UTF-8 и с указанием содержимого в формате JSON.
+    ``` Content-Type: application/json; charset=utf-8 ```
+    ## Максимальное время обработки запроса
+    При любом обращении к API в заголовке `X-Request-Deadline` соответствующего запроса можно передать параметр отсечки по времени, определяющий максимальное время ожидания завершения операции по запросу:
+    ```
+        X-Request-Deadline: 10s
+    ```
+    По истечении указанного времени система прекращает обработку запроса. Рекомендуется указывать значение не более одной минуты, но не менее трёх секунд.
+    `X-Request-Deadline` может:
+    * задаваться в формате `date-time` согласно
+        [RFC 3339](https://datatracker.ietf.org/doc/html/rfc3339);
+    * задаваться в относительных величинах: в миллисекундах (`150000ms`), секундах (`540s`) или
+        минутах (`3.5m`).
+  termsOfService: 'https://vality.dev/'
+  contact:
+    name: Technical support team
+    email: support@vality.dev
+    url: 'https://api.vality.dev'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+host: api.vality.dev
+basePath: /apikeys/v2
+schemes:
+  - https
+consumes:
+  - application/json; charset=utf-8
+produces:
+  - application/json; charset=utf-8
+securityDefinitions:
+  bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+    description: |
+      Use [JWT](https://jwt.io) for call authentication. The corresponding key is passed in the header.
+      ```shell
+       Authorization: Bearer {YOUR_API_KEY_JWT}
+      ```
+security:
+  - bearer: []
+responses:
+  BadRequest:
+    description: Invalid input data for operation
+    schema:
+      $ref: '#/definitions/BadRequest'
+  NotFound:
+    description: The content you are looking for was not found
+  Unauthorized:
+    description: Authorization error
+parameters:
+  requestID:
+    name: X-Request-ID
+    in: header
+    description: Unique identifier of the request to the system
+    required: true
+    type: string
+    maxLength: 32
+    minLength: 1
+  deadline:
+    name: X-Request-Deadline
+    in: header
+    description: Maximum request processing time
+    required: false
+    type: string
+    maxLength: 40
+    minLength: 1
+  apiKeyId:
+    name: apiKeyId
+    in: path
+    description: Идентификатор ключа
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 40
+  apiKeyRevokeToken:
+    name: apiKeyRevokeToken
+    in: query
+    description: Токен отзыва ключа
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 4000
+  partyId:
+    name: partyId
+    in: path
+    description: Идентификатор участника
+    required: true
+    type: string
+    minLength: 1
+    maxLength: 40
+tags:
+  - name: apiKeys
+    x-displayName: API-ключи
+  - name: errorCodes
+    x-displayName: Коды ошибок
+    description: |
+      ## Общие ошибки
+      Ошибки возникающие при попытках совершения недопустимых операций, операций с невалидными объектами или несуществующими ресурсами. Имеют следующий вид:
+      ```json {
+          "code": "string",
+          "message": "string"
+      } ```
+      В поле `message` содержится информация по произошедшей ошибке. Например:
+      ```json {
+          "code": "invalidRequest",
+          "message": "Property 'name' is required."
+      } ```
+      ## Ошибки обработки запросов
+      В процессе обработки запросов силами нашей платформы могут происходить различные непредвиденные ситуации. Об их появлении платформа сигнализирует по протоколу HTTP соответствующими [статусами][5xx], обозначающими ошибки сервера.
+      |  Код    |  Описание  | | ------- | ---------- | | **500** | В процессе обработки платформой запроса возникла непредвиденная ситуация. При получении подобного кода ответа мы рекомендуем обратиться в техническую поддержку. | | **503** | Платформа временно недоступна и не готова обслуживать данный запрос. Запрос гарантированно не выполнен, при получении подобного кода ответа попробуйте выполнить его позднее, когда доступность платформы будет восстановлена. | | **504** | Платформа превысила допустимое время обработки запроса, результат запроса не определён. Попробуйте отправить запрос повторно или выяснить результат выполнения исходного запроса, если повторное исполнение запроса нежелательно. |
+      [5xx]: https://tools.ietf.org/html/rfc7231#section-6.6
+
+      Если вы получили ошибку, которой нет в данном описании, обратитесь в техническую поддержку.
+paths:
+  '/orgs/{partyId}/api-keys':
+    get:
+      summary: Перечислить ключи организации
+      operationId: listApiKeys
+      tags:
+        - apiKeys
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyId'
+        - name: status
+          description: |
+            Фильтр по статусу ключа. По умолчанию `active`.
+          in: query
+          required: false
+          type: string
+          enum:
+            - Active
+            - Revoked
+      responses:
+        '200':
+          description: Ключи найдены
+          schema:
+            type: object
+            required:
+              - results
+            properties:
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/ApiKey'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+    post:
+      summary: Выпустить новый ключ
+      operationId: issueApiKey
+      tags:
+        - apiKeys
+      parameters:
+        - $ref: '#/parameters/partyId'
+        - name: apiKey
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/ApiKey'
+      responses:
+        '200':
+          description: Ключ выпущен
+          schema:
+            allOf:
+              - $ref: '#/definitions/ApiKey'
+              - $ref: '#/definitions/AccessToken'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+  '/orgs/{partyId}/api-keys/{apiKeyId}':
+    get:
+      summary: Получить данные ключа
+      operationId: getApiKey
+      tags:
+        - apiKeys
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyId'
+        - $ref: '#/parameters/apiKeyId'
+      responses:
+        '200':
+          description: Ключ найден
+          schema:
+            $ref: '#/definitions/ApiKey'
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/orgs/{partyId}/api-keys/{apiKeyId}/status':
+    put:
+      summary: Запросить отзыв ключа
+      description: |
+        Просит отозвать Api Key, для подтверждения запроса
+        посылает на почту запросившего письмо с ссылкой на
+        revokeApiKey для подтверждения операции
+      operationId: requestRevokeApiKey
+      tags:
+        - apiKeys
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyId'
+        - $ref: '#/parameters/apiKeyId'
+        - name: status
+          description: Status to change Api Key into
+          in: body
+          required: true
+          schema:
+            type: string
+            enum:
+              - Revoked
+      responses:
+        '204':
+          description: Запрос на операцию получен
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+  '/orgs/{partyId}/revoke-api-key/{apiKeyId}':
+    get:
+      summary: Отозвать ключ
+      description: |
+        Ссылка на этот запрос приходит на почту запросившего
+        requestRevokeApiKey, в результате выполнения этого запроса
+        Api Key будет отозван
+      operationId: revokeApiKey
+      tags:
+        - apiKeys
+      parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
+        - $ref: '#/parameters/partyId'
+        - $ref: '#/parameters/apiKeyId'
+        - $ref: '#/parameters/apiKeyRevokeToken'
+      responses:
+        '204':
+          description: Ключ отозван
+        '400':
+          $ref: '#/responses/BadRequest'
+        '401':
+          $ref: '#/responses/Unauthorized'
+        '404':
+          $ref: '#/responses/NotFound'
+definitions:
+  AccessToken:
+    type: object
+    required:
+      - accessToken
+    properties:
+      accessToken:
+        description: 'Токен доступа, ассоциированный с данным ключом'
+        type: string
+        minLength: 1
+        maxLength: 4000
+        example: |
+          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0a2kiOiIxS2dJWUJHc0NncSIsImlhdCI6MTUxNjIzOTAyMn0.6YsaZQC9A7BjxXHwRbJfUO6VujOb4rHTKrqmMt64TbQ
+  ApiKey:
+    description: Ключ для авторизации запросов к API
+    type: object
+    required:
+      - id
+      - createdAt
+      - name
+      - status
+    properties:
+      id:
+        $ref: '#/definitions/ApiKeyID'
+      createdAt:
+        description: Дата и время создания
+        type: string
+        format: date-time
+        readOnly: true
+      name:
+        description: Запоминающееся название ключа
+        type: string
+        minLength: 1
+        maxLength: 40
+        example: live-site-integration
+      status:
+        $ref: '#/definitions/ApiKeyStatus'
+      metadata:
+        description: |
+          Произвольный набор данных, специфичный для клиента API и
+          непрозрачный для системы
+        type: object
+  ApiKeyID:
+    description: Идентификатор ключа
+    type: string
+    minLength: 1
+    maxLength: 40
+    example: 1KgIYBGsCgq
+    readOnly: true
+  ApiKeyStatus:
+    description: Статус ключа
+    type: string
+    enum:
+      - Active
+      - Revoked
+    readOnly: true
+  BadRequest:
+    type: object
+    required:
+      - errorType
+    properties:
+      errorType:
+        description: Error type
+        type: string
+        enum:
+          - SchemaViolated
+          - NotFound
+          - WrongType
+          - NotInRange
+          - WrongSize
+          - WrongLength
+          - WrongArray
+          - NoMatch
+          - InvalidToken
+        example: NotFound
+      name:
+        description: Name or identifier of message element containing invalid data
+        type: string
+        example: X-Request-ID
+      description:
+        description: Explanation of why the data is invalid
+        type: string
+        example: Required parameter was not sent
