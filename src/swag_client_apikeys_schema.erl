@@ -148,6 +148,21 @@ get_raw() ->
           <<"required">> => false,
           <<"type">> => <<"string">>,
           <<"enum">> => [ <<"Active">>, <<"Revoked">> ]
+        }, #{
+          <<"name">> => <<"limit">>,
+          <<"in">> => <<"query">>,
+          <<"description">> => <<"Selection limit">>,
+          <<"required">> => true,
+          <<"type">> => <<"integer">>,
+          <<"maximum">> => 1000,
+          <<"minimum">> => 1,
+          <<"format">> => <<"int32">>
+        }, #{
+          <<"name">> => <<"continuationToken">>,
+          <<"in">> => <<"query">>,
+          <<"description">> => <<"A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>
         } ],
         <<"responses">> => #{
           <<"200">> => #{
@@ -500,10 +515,18 @@ get_raw() ->
         }
       }
     },
+    <<"ContinuationToken">> => #{
+      <<"type">> => <<"string">>,
+      <<"description">> => <<"A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n">>
+    },
     <<"inline_response_200">> => #{
       <<"type">> => <<"object">>,
       <<"required">> => [ <<"results">> ],
       <<"properties">> => #{
+        <<"continuationToken">> => #{
+          <<"type">> => <<"string">>,
+          <<"description">> => <<"A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n">>
+        },
         <<"results">> => #{
           <<"type">> => <<"array">>,
           <<"items">> => #{
@@ -524,7 +547,8 @@ get_raw() ->
           <<"name">> => <<"live-site-integration">>,
           <<"id">> => <<"1KgIYBGsCgq">>,
           <<"status">> => #{ }
-        } ]
+        } ],
+        <<"continuationToken">> => <<"continuationToken">>
       }
     },
     <<"inline_response_200_1">> => #{
@@ -596,6 +620,16 @@ get_raw() ->
       <<"type">> => <<"string">>,
       <<"maxLength">> => 40,
       <<"minLength">> => 1
+    },
+    <<"limit">> => #{
+      <<"name">> => <<"limit">>,
+      <<"in">> => <<"query">>,
+      <<"description">> => <<"Selection limit">>,
+      <<"required">> => true,
+      <<"type">> => <<"integer">>,
+      <<"maximum">> => 1000,
+      <<"minimum">> => 1,
+      <<"format">> => <<"int32">>
     }
   },
   <<"responses">> => #{
