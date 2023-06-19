@@ -116,25 +116,16 @@ parameters:
     description: Идентификатор ключа
     required: true
     type: string
-    # schema:
-      # $ref: '#/definitions/ApiKeyID'
-    # type: string
     minLength: 1
     maxLength: 40
-    # example: 1KgIYBGsCgq
   apiKeyRevokeToken:
     name: apiKeyRevokeToken
     in: query
     description: Токен отзыва ключа
     required: true
     type: string
-    # schema:
-    #   $ref: '#/definitions/RevokeToken'
-
     minLength: 1
     maxLength: 4000
-    # example: |
-    #   f767b77e-300f-47a7-84e2-e24ea585a9f0
   partyId:
     name: partyId
     in: path
@@ -143,8 +134,15 @@ parameters:
     type: string
     minLength: 1
     maxLength: 40
-    # example: |
-    #   bdaf9e76-1c5b-4798-b154-19b87a61dc94
+  limit:
+    name: limit
+    in: query
+    description: Selection limit
+    required: true
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 1000
 
 tags:
   - name: apiKeys

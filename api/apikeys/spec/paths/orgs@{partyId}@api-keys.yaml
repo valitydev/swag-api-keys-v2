@@ -17,6 +17,12 @@ get:
       enum:
         - Active
         - Revoked
+    - $ref: "#/parameters/limit"
+    - x-rebillyMerge:
+        - name: continuationToken
+          in: query
+          required: false
+        - $ref: "#/definitions/ContinuationToken"
   responses:
     '200':
       description: Ключи найдены
