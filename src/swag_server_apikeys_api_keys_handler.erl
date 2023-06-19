@@ -460,6 +460,11 @@ get_request_spec('ListApiKeys') ->
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
 , {required, true}]
         }},
+        {'limit', #{
+            source => qs_val,
+            rules  => [{type, 'integer'}, {format, 'int32'}, {max, 1000, inclusive}, {min, 1, inclusive}, true
+, {required, true}]
+        }},
         {'X-Request-Deadline', #{
             source => header,
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
@@ -468,6 +473,11 @@ get_request_spec('ListApiKeys') ->
         {'status', #{
             source => qs_val,
             rules  => [{type, 'binary'}, {enum, ['Active', 'Revoked']}, true
+, {required, false}]
+        }},
+        {'continuationToken', #{
+            source => qs_val,
+            rules  => [{type, 'binary'}, true
 , {required, false}]
         }}
     ];
