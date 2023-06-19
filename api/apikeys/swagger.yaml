@@ -103,6 +103,15 @@ parameters:
     type: string
     minLength: 1
     maxLength: 40
+  limit:
+    name: limit
+    in: query
+    description: Selection limit
+    required: true
+    type: integer
+    format: int32
+    minimum: 1
+    maximum: 1000
 tags:
   - name: apiKeys
     x-displayName: API-ключи
@@ -146,6 +155,15 @@ paths:
           enum:
             - Active
             - Revoked
+        - $ref: '#/parameters/limit'
+        - name: continuationToken
+          in: query
+          required: false
+          description: |
+            A token signalling that only part of the data has been transmitted in the response.
+            To retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.
+            If there is no token, the last piece of data is received.
+          type: string
       responses:
         '200':
           description: Ключи найдены
@@ -154,6 +172,12 @@ paths:
             required:
               - results
             properties:
+              continuationToken:
+                description: |
+                  A token signalling that only part of the data has been transmitted in the response.
+                  To retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.
+                  If there is no token, the last piece of data is received.
+                type: string
               results:
                 type: array
                 items:
@@ -349,3 +373,9 @@ definitions:
         description: Explanation of why the data is invalid
         type: string
         example: Required parameter was not sent
+  ContinuationToken:
+    description: |
+      A token signalling that only part of the data has been transmitted in the response.
+      To retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.
+      If there is no token, the last piece of data is received.
+    type: string
