@@ -31,6 +31,9 @@ get:
         required:
           - results
         properties:
+          continuationToken:
+            x-rebillyMerge:
+              - $ref: "#/definitions/ContinuationToken"
           results:
             type: array
             items:
