@@ -1,0 +1,16 @@
+description: Параметры создания ключа для авторизации запросов к API
+type: object
+required:
+  - name
+properties:
+  name:
+    description: Запоминающееся название ключа
+    type: string
+    minLength: 1
+    maxLength: 40
+    example: live-site-integration
+  metadata:
+    description: |
+      Произвольный набор данных, специфичный для клиента API и
+      непрозрачный для системы
+    type: object

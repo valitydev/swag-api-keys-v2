@@ -15,8 +15,8 @@ get:
       required: false
       type: string
       enum:
-        - Active
-        - Revoked
+        - active
+        - revoked
     - $ref: "#/parameters/limit"
     - x-rebillyMerge:
         - name: continuationToken
@@ -52,11 +52,11 @@ post:
     - apiKeys
   parameters:
     - $ref: '#/parameters/partyId'
-    - name: apiKey
+    - name: apiKeyIssue
       in: body
       required: true
       schema:
-        $ref: '#/definitions/ApiKey'
+        $ref: '#/definitions/ApiKeyIssue'
   responses:
     '200':
       description: Ключ выпущен
