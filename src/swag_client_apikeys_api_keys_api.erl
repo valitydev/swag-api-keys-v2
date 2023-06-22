@@ -160,7 +160,7 @@ get_request_spec('issue_api_key') ->
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
 , {required, true}]
         }},
-        {'ApiKey', #{
+        {'ApiKeyIssue', #{
             source => body,
             rules  => [schema, {required, true}]
         }}
@@ -189,7 +189,7 @@ get_request_spec('list_api_keys') ->
         }},
         {'status', #{
             source => qs_val,
-            rules  => [{type, 'binary'}, {enum, ['Active', 'Revoked']}, true
+            rules  => [{type, 'binary'}, {enum, ['active', 'revoked']}, true
 , {required, false}]
         }},
         {'continuationToken', #{

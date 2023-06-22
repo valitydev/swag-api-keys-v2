@@ -147,7 +147,7 @@ get_raw() ->
           <<"description">> => <<"Фильтр по статусу ключа. По умолчанию `active`.\n">>,
           <<"required">> => false,
           <<"type">> => <<"string">>,
-          <<"enum">> => [ <<"Active">>, <<"Revoked">> ]
+          <<"enum">> => [ <<"active">>, <<"revoked">> ]
         }, #{
           <<"name">> => <<"limit">>,
           <<"in">> => <<"query">>,
@@ -199,10 +199,10 @@ get_raw() ->
           <<"minLength">> => 1
         }, #{
           <<"in">> => <<"body">>,
-          <<"name">> => <<"apiKey">>,
+          <<"name">> => <<"apiKeyIssue">>,
           <<"required">> => true,
           <<"schema">> => #{
-            <<"$ref">> => <<"#/definitions/ApiKey">>
+            <<"$ref">> => <<"#/definitions/ApiKeyIssue">>
           }
         } ],
         <<"responses">> => #{
@@ -487,6 +487,29 @@ get_raw() ->
       <<"maxLength">> => 40,
       <<"description">> => <<"Идентификатор ключа">>,
       <<"example">> => <<"1KgIYBGsCgq">>
+    },
+    <<"ApiKeyIssue">> => #{
+      <<"type">> => <<"object">>,
+      <<"required">> => [ <<"name">> ],
+      <<"properties">> => #{
+        <<"name">> => #{
+          <<"type">> => <<"string">>,
+          <<"example">> => <<"live-site-integration">>,
+          <<"description">> => <<"Запоминающееся название ключа">>,
+          <<"minLength">> => 1,
+          <<"maxLength">> => 40
+        },
+        <<"metadata">> => #{
+          <<"type">> => <<"object">>,
+          <<"description">> => <<"Произвольный набор данных, специфичный для клиента API и\nнепрозрачный для системы\n">>,
+          <<"properties">> => #{ }
+        }
+      },
+      <<"description">> => <<"Параметры создания ключа для авторизации запросов к API">>,
+      <<"example">> => #{
+        <<"metadata">> => <<"{}">>,
+        <<"name">> => <<"live-site-integration">>
+      }
     },
     <<"ApiKeyStatus">> => #{
       <<"type">> => <<"string">>,
