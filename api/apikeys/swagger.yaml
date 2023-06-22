@@ -194,6 +194,8 @@ paths:
       tags:
         - apiKeys
       parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/partyId'
         - name: apiKeyIssue
           in: body
@@ -360,8 +362,8 @@ definitions:
     description: Статус ключа
     type: string
     enum:
-      - Active
-      - Revoked
+      - active
+      - revoked
     readOnly: true
   BadRequest:
     type: object
