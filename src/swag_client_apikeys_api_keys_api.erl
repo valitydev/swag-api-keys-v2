@@ -155,6 +155,11 @@ get_request_spec('get_api_key') ->
     ];
 get_request_spec('issue_api_key') ->
     [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
         {'partyId', #{
             source => binding,
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
@@ -163,6 +168,11 @@ get_request_spec('issue_api_key') ->
         {'ApiKeyIssue', #{
             source => body,
             rules  => [schema, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
         }}
     ];
 get_request_spec('list_api_keys') ->
