@@ -153,8 +153,8 @@ paths:
           required: false
           type: string
           enum:
-            - Active
-            - Revoked
+            - active
+            - revoked
         - $ref: '#/parameters/limit'
         - name: continuationToken
           in: query
@@ -195,11 +195,11 @@ paths:
         - apiKeys
       parameters:
         - $ref: '#/parameters/partyId'
-        - name: apiKey
+        - name: apiKeyIssue
           in: body
           required: true
           schema:
-            $ref: '#/definitions/ApiKey'
+            $ref: '#/definitions/ApiKeyIssue'
       responses:
         '200':
           description: Ключ выпущен
@@ -339,6 +339,23 @@ definitions:
     maxLength: 40
     example: 1KgIYBGsCgq
     readOnly: true
+  ApiKeyIssue:
+    description: Параметры создания ключа для авторизации запросов к API
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        description: Запоминающееся название ключа
+        type: string
+        minLength: 1
+        maxLength: 40
+        example: live-site-integration
+      metadata:
+        description: |
+          Произвольный набор данных, специфичный для клиента API и
+          непрозрачный для системы
+        type: object
   ApiKeyStatus:
     description: Статус ключа
     type: string
