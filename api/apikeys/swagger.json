@@ -146,8 +146,8 @@
             "required": false,
             "type": "string",
             "enum": [
-              "Active",
-              "Revoked"
+              "active",
+              "revoked"
             ]
           },
           {
@@ -205,11 +205,11 @@
             "$ref": "#/parameters/partyId"
           },
           {
-            "name": "apiKey",
+            "name": "apiKeyIssue",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ApiKey"
+              "$ref": "#/definitions/ApiKeyIssue"
             }
           }
         ],
@@ -426,6 +426,26 @@
       "maxLength": 40,
       "example": "1KgIYBGsCgq",
       "readOnly": true
+    },
+    "ApiKeyIssue": {
+      "description": "Параметры создания ключа для авторизации запросов к API",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "description": "Запоминающееся название ключа",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "example": "live-site-integration"
+        },
+        "metadata": {
+          "description": "Произвольный набор данных, специфичный для клиента API и\nнепрозрачный для системы\n",
+          "type": "object"
+        }
+      }
     },
     "ApiKeyStatus": {
       "description": "Статус ключа",
