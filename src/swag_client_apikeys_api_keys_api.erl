@@ -225,7 +225,7 @@ get_request_spec('request_revoke_api_key') ->
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
 , {required, true}]
         }},
-        {'binary', #{
+        {'RequestRevoke', #{
             source => body,
             rules  => [schema, {required, true}]
         }},

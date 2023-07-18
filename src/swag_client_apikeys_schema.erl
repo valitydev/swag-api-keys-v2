@@ -340,12 +340,11 @@ get_raw() ->
           <<"minLength">> => 1
         }, #{
           <<"in">> => <<"body">>,
-          <<"name">> => <<"status">>,
+          <<"name">> => <<"requestRevoke">>,
           <<"description">> => <<"Status to change Api Key into">>,
           <<"required">> => true,
           <<"schema">> => #{
-            <<"type">> => <<"string">>,
-            <<"enum">> => [ <<"Revoked">> ]
+            <<"$ref">> => <<"#/definitions/RequestRevoke">>
           }
         } ],
         <<"responses">> => #{
@@ -557,6 +556,21 @@ get_raw() ->
     <<"ContinuationToken">> => #{
       <<"type">> => <<"string">>,
       <<"description">> => <<"A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n">>
+    },
+    <<"RequestRevoke">> => #{
+      <<"type">> => <<"object">>,
+      <<"required">> => [ <<"status">> ],
+      <<"properties">> => #{
+        <<"status">> => #{
+          <<"type">> => <<"string">>,
+          <<"description">> => <<"Status to change Api Key into">>,
+          <<"enum">> => [ <<"revoked">> ]
+        }
+      },
+      <<"description">> => <<"Параметры отзыва ключа">>,
+      <<"example">> => #{
+        <<"status">> => <<"revoked">>
+      }
     },
     <<"inline_response_200">> => #{
       <<"type">> => <<"object">>,
