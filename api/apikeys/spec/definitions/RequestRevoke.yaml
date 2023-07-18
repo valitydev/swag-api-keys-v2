@@ -1,0 +1,10 @@
+description: Параметры отзыва ключа
+type: object
+required:
+  - status
+properties:
+  status:
+    description: Status to change Api Key into
+    type: string
+    enum:
+      - revoked
