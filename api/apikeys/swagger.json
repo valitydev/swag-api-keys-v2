@@ -304,15 +304,12 @@
             "$ref": "#/parameters/apiKeyId"
           },
           {
-            "name": "status",
+            "name": "requestRevoke",
             "description": "Status to change Api Key into",
             "in": "body",
             "required": true,
             "schema": {
-              "type": "string",
-              "enum": [
-                "Revoked"
-              ]
+              "$ref": "#/definitions/RequestRevoke"
             }
           }
         ],
@@ -499,6 +496,22 @@
     "ContinuationToken": {
       "description": "A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n",
       "type": "string"
+    },
+    "RequestRevoke": {
+      "description": "Параметры отзыва ключа",
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "description": "Status to change Api Key into",
+          "type": "string",
+          "enum": [
+            "revoked"
+          ]
+        }
+      }
     }
   }
 }
