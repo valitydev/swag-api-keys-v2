@@ -13,14 +13,12 @@ put:
     - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/partyId'
     - $ref: '#/parameters/apiKeyId'
-    - name: status
+    - name: requestRevoke
       description: Status to change Api Key into
       in: body
       required: true
       schema:
-        type: string
-        enum:
-          - Revoked
+        $ref: '#/definitions/RequestRevoke'
   responses:
     '204':
       description: Запрос на операцию получен
