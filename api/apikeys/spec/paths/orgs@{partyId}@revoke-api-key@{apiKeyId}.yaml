@@ -6,6 +6,7 @@ get:
     requestRevokeApiKey, в результате выполнения этого запроса
     Api Key будет отозван
   operationId: revokeApiKey
+  security: []
   tags:
     - apiKeys
   parameters:
