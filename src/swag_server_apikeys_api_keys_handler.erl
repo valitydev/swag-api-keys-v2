@@ -212,31 +212,12 @@ is_authorized(
     end;
 
 is_authorized(
-    Req0,
+    Req,
     State = #state{
-        operation_id  = 'RevokeApiKey' = OperationID,
-        logic_handler = LogicHandler,
-        context       = Context
+        operation_id  = 'RevokeApiKey'
     }
 ) ->
-    From = header,
-    Result = swag_server_apikeys_handler_api:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        'Authorization',
-        Req0,
-        Context
-    ),
-    case Result of
-        {true, AuthContext, Req} ->
-            NewContext = Context#{
-                auth_context => AuthContext
-            },
-            {true, Req, State#state{context = NewContext}};
-        {false, AuthHeader, Req} ->
-            {{false, AuthHeader}, Req, State}
-    end;
+    {true, Req, State};
 
 is_authorized(Req, State) ->
     {{false, <<"">>}, Req, State}.
