@@ -237,11 +237,6 @@ get_request_spec('request_revoke_api_key') ->
     ];
 get_request_spec('revoke_api_key') ->
     [
-        {'X-Request-ID', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
-, {required, true}]
-        }},
         {'partyId', #{
             source => binding,
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
@@ -256,11 +251,6 @@ get_request_spec('revoke_api_key') ->
             source => qs_val,
             rules  => [{type, 'binary'}, {max_length, 4000}, {min_length, 1}, true
 , {required, true}]
-        }},
-        {'X-Request-Deadline', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, false}]
         }}
     ].
 
