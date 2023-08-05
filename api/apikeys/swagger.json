@@ -334,6 +334,7 @@
         "summary": "Отозвать ключ",
         "description": "Ссылка на этот запрос приходит на почту запросившего\nrequestRevokeApiKey, в результате выполнения этого запроса\nApi Key будет отозван\n",
         "operationId": "revokeApiKey",
+        "security": [],
         "tags": [
           "apiKeys"
         ],
