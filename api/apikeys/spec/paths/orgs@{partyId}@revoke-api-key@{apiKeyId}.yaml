@@ -10,8 +10,6 @@ get:
   tags:
     - apiKeys
   parameters:
-    - $ref: '#/parameters/requestID'
-    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/partyId'
     - $ref: '#/parameters/apiKeyId'
     - $ref: '#/parameters/apiKeyRevokeToken'
