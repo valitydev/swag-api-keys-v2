@@ -413,6 +413,7 @@ get_raw() ->
           <<"maxLength">> => 4000,
           <<"minLength">> => 1
         } ],
+        <<"security">> => [ ],
         <<"responses">> => #{
           <<"204">> => #{
             <<"description">> => <<"Ключ отозван">>
