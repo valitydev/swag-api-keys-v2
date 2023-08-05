@@ -283,7 +283,7 @@ valid_content_headers(
         operation_id = 'RevokeApiKey'
     }
 ) ->
-    Headers = ["X-Request-ID","X-Request-Deadline"],
+    Headers = [],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
 
@@ -501,11 +501,6 @@ get_request_spec('RequestRevokeApiKey') ->
     ];
 get_request_spec('RevokeApiKey') ->
     [
-        {'X-Request-ID', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
-, {required, true}]
-        }},
         {'partyId', #{
             source => binding,
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
@@ -520,11 +515,6 @@ get_request_spec('RevokeApiKey') ->
             source => qs_val,
             rules  => [{type, 'binary'}, {max_length, 4000}, {min_length, 1}, true
 , {required, true}]
-        }},
-        {'X-Request-Deadline', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, false}]
         }}
     ].
 
