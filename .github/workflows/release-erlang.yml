@@ -45,7 +45,7 @@ jobs:
 
       - name: Deploy erlang-client-apikeys artifact to release branch
         if: ${{ github.event_name == 'push' }}
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: release/erlang/client/master
           folder: out/erlang-client-apikeys
@@ -53,7 +53,7 @@ jobs:
 
       - name: Deploy erlang-server-apikeys artifact to release branch
         if: ${{ github.event_name == 'push' }}
-        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: release/erlang/server/master
           folder: out/erlang-server-apikeys
