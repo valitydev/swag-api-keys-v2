@@ -212,12 +212,31 @@ is_authorized(
     end;
 
 is_authorized(
-    Req,
+    Req0,
     State = #state{
-        operation_id  = 'RevokeApiKey'
+        operation_id  = 'RevokeApiKey' = OperationID,
+        logic_handler = LogicHandler,
+        context       = Context
     }
 ) ->
-    {true, Req, State};
+    From = header,
+    Result = swag_server_apikeys_handler_api:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        'Authorization',
+        Req0,
+        Context
+    ),
+    case Result of
+        {true, AuthContext, Req} ->
+            NewContext = Context#{
+                auth_context => AuthContext
+            },
+            {true, Req, State#state{context = NewContext}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
+    end;
 
 is_authorized(Req, State) ->
     {{false, <<"">>}, Req, State}.
@@ -283,7 +302,7 @@ valid_content_headers(
         operation_id = 'RevokeApiKey'
     }
 ) ->
-    Headers = [],
+    Headers = ["X-Request-ID","X-Request-Deadline"],
     {Result, Req} = validate_headers(Headers, Req0),
     {Result, Req, State};
 
@@ -501,6 +520,11 @@ get_request_spec('RequestRevokeApiKey') ->
     ];
 get_request_spec('RevokeApiKey') ->
     [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
         {'partyId', #{
             source => binding,
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
@@ -515,6 +539,11 @@ get_request_spec('RevokeApiKey') ->
             source => qs_val,
             rules  => [{type, 'binary'}, {max_length, 4000}, {min_length, 1}, true
 , {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
         }}
     ].
 
