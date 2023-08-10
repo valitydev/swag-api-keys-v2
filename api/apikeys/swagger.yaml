@@ -206,9 +206,15 @@ paths:
         '200':
           description: Ключ выпущен
           schema:
-            allOf:
-              - $ref: '#/definitions/ApiKey'
-              - $ref: '#/definitions/AccessToken'
+            type: object
+            required:
+              - accessToken
+              - apiKey
+            properties:
+              accessToken:
+                $ref: '#/definitions/AccessToken'
+              apiKey:
+                $ref: '#/definitions/ApiKey'
         '400':
           $ref: '#/responses/BadRequest'
         '401':
@@ -273,10 +279,11 @@ paths:
         requestRevokeApiKey, в результате выполнения этого запроса
         Api Key будет отозван
       operationId: revokeApiKey
-      security: []
       tags:
         - apiKeys
       parameters:
+        - $ref: '#/parameters/requestID'
+        - $ref: '#/parameters/deadline'
         - $ref: '#/parameters/partyId'
         - $ref: '#/parameters/apiKeyId'
         - $ref: '#/parameters/apiKeyRevokeToken'
@@ -291,17 +298,12 @@ paths:
           $ref: '#/responses/NotFound'
 definitions:
   AccessToken:
-    type: object
-    required:
-      - accessToken
-    properties:
-      accessToken:
-        description: 'Токен доступа, ассоциированный с данным ключом'
-        type: string
-        minLength: 1
-        maxLength: 4000
-        example: |
-          eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0a2kiOiIxS2dJWUJHc0NncSIsImlhdCI6MTUxNjIzOTAyMn0.6YsaZQC9A7BjxXHwRbJfUO6VujOb4rHTKrqmMt64TbQ
+    description: 'Токен доступа, ассоциированный с ключом'
+    type: string
+    minLength: 1
+    maxLength: 4000
+    example: |
+      eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0a2kiOiIxS2dJWUJHc0NncSIsImlhdCI6MTUxNjIzOTAyMn0.6YsaZQC9A7BjxXHwRbJfUO6VujOb4rHTKrqmMt64TbQ
   ApiKey:
     description: Ключ для авторизации запросов к API
     type: object
