@@ -6,10 +6,11 @@ get:
     requestRevokeApiKey, в результате выполнения этого запроса
     Api Key будет отозван
   operationId: revokeApiKey
-  security: []
   tags:
     - apiKeys
   parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
     - $ref: '#/parameters/partyId'
     - $ref: '#/parameters/apiKeyId'
     - $ref: '#/parameters/apiKeyRevokeToken'

@@ -63,9 +63,15 @@ post:
     '200':
       description: Ключ выпущен
       schema:
-        allOf:
-          - $ref: '#/definitions/ApiKey'
-          - $ref: '#/definitions/AccessToken'
+        type: object
+        required:
+          - accessToken
+          - apiKey
+        properties:
+          accessToken:
+            $ref: '#/definitions/AccessToken'
+          apiKey:
+            $ref: '#/definitions/ApiKey'
     '401':
       $ref: "#/responses/Unauthorized"
     '400':
