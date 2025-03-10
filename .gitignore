@@ -39,3 +39,8 @@ node_modules
 
 # Other
 .DS_Store
+
+# Frontend
+/lib
+/vality-openapi
+openapitools.json
