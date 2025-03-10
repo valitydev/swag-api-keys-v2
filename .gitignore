@@ -33,14 +33,11 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-# Frontend
-/lib
-.openapitools.json
-
 # Other
 .DS_Store
 
 # Frontend
 /lib
 /vality-openapi
+/web_deploy
 openapitools.json
