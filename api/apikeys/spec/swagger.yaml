@@ -88,7 +88,7 @@ responses:
   BadRequest:
     description: Invalid input data for operation
     schema:
-      $ref: "#/definitions/BadRequest"
+      $ref: "#/responses/BadRequest"
   NotFound:
     description: The content you are looking for was not found
   Unauthorized:
@@ -184,4 +184,3 @@ tags:
 
 
       Если вы получили ошибку, которой нет в данном описании, обратитесь в техническую поддержку.
-

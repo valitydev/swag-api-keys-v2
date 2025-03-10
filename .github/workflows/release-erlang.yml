@@ -3,10 +3,10 @@ on:
   push:
     branches: [master]
   pull_request:
-    branches: ['**']
+    branches: ["**"]
 
 env:
-  NODEJS_VERSION: '16'
+  NODEJS_VERSION: "16"
 
 jobs:
   build:
@@ -32,16 +32,16 @@ jobs:
         run: npm install
 
       - name: Bundle spec and build docsite
-        run: npm run build -- build_public
+        run: npm run build -- web_deploy
 
       - name: Generate stubs
         run: |
           mkdir -p out
           echo "Generate apikeys stubs"
-          swagger-codegen generate -l vality-erlang-client -i build_public/api/apikeys/swagger.json -o out/erlang-client-apikeys --additional-properties packageName=swag_client_apikeys
-          swagger-codegen generate -l vality-erlang-server -i build_public/api/apikeys/swagger.json -o out/erlang-server-apikeys --additional-properties packageName=swag_server_apikeys
+          swagger-codegen generate -l vality-erlang-client -i web_deploy/api/apikeys/swagger.json -o out/erlang-client-apikeys --additional-properties packageName=swag_client_apikeys
+          swagger-codegen generate -l vality-erlang-server -i web_deploy/api/apikeys/swagger.json -o out/erlang-server-apikeys --additional-properties packageName=swag_server_apikeys
 
-#
+      #
 
       - name: Deploy erlang-client-apikeys artifact to release branch
         if: ${{ github.event_name == 'push' }}

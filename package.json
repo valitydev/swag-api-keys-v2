@@ -5,7 +5,7 @@
   "scripts": {
     "start": "redocly preview-docs",
     "validate": "redocly lint",
-    "bundle:yaml": "redocly bundle openapi/openapi.yaml -o web_deploy/openapi",
+    "bundle:yaml": "redocly bundle api/apikeys/spec/swagger.yaml -o web_deploy/openapi",
     "bundle:json": "npm run bundle:yaml -- --ext json",
     "build": "npm run bundle:yaml && npm run bundle:json",
     "build-docs": "redocly build-docs -o web_deploy/index.html",
