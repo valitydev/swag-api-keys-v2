@@ -95,8 +95,18 @@ get_operations() ->
             method => <<"GET">>,
             handler => 'swag_server_apikeys_api_keys_handler'
         },
+        'GetApiKeyPrivate' => #{
+            path => "/apikeys/v2/priv/:partyId/api-keys/:apiKeyId",
+            method => <<"GET">>,
+            handler => 'swag_server_apikeys_api_keys_handler'
+        },
         'IssueApiKey' => #{
             path => "/apikeys/v2/orgs/:partyId/api-keys",
+            method => <<"POST">>,
+            handler => 'swag_server_apikeys_api_keys_handler'
+        },
+        'IssueApiKeyPrivate' => #{
+            path => "/apikeys/v2/priv/:partyId/api-keys",
             method => <<"POST">>,
             handler => 'swag_server_apikeys_api_keys_handler'
         },
@@ -105,13 +115,28 @@ get_operations() ->
             method => <<"GET">>,
             handler => 'swag_server_apikeys_api_keys_handler'
         },
+        'ListApiKeysPrivate' => #{
+            path => "/apikeys/v2/priv/:partyId/api-keys",
+            method => <<"GET">>,
+            handler => 'swag_server_apikeys_api_keys_handler'
+        },
         'RequestRevokeApiKey' => #{
             path => "/apikeys/v2/orgs/:partyId/api-keys/:apiKeyId/status",
             method => <<"PUT">>,
             handler => 'swag_server_apikeys_api_keys_handler'
         },
+        'RequestRevokeApiKeyPrivate' => #{
+            path => "/apikeys/v2/priv/:partyId/api-keys/:apiKeyId/status",
+            method => <<"PUT">>,
+            handler => 'swag_server_apikeys_api_keys_handler'
+        },
         'RevokeApiKey' => #{
             path => "/apikeys/v2/orgs/:partyId/revoke-api-key/:apiKeyId",
+            method => <<"GET">>,
+            handler => 'swag_server_apikeys_api_keys_handler'
+        },
+        'RevokeApiKeyPrivate' => #{
+            path => "/apikeys/v2/priv/:partyId/revoke-api-key/:apiKeyId",
             method => <<"GET">>,
             handler => 'swag_server_apikeys_api_keys_handler'
         }

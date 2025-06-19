@@ -64,7 +64,23 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
+        operation_id = 'GetApiKeyPrivate'
+    }
+) ->
+    {[<<"GET">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
         operation_id = 'IssueApiKey'
+    }
+) ->
+    {[<<"POST">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
+        operation_id = 'IssueApiKeyPrivate'
     }
 ) ->
     {[<<"POST">>], Req, State};
@@ -80,6 +96,14 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
+        operation_id = 'ListApiKeysPrivate'
+    }
+) ->
+    {[<<"GET">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
         operation_id = 'RequestRevokeApiKey'
     }
 ) ->
@@ -88,7 +112,23 @@ allowed_methods(
 allowed_methods(
     Req,
     State = #state{
+        operation_id = 'RequestRevokeApiKeyPrivate'
+    }
+) ->
+    {[<<"PUT">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
         operation_id = 'RevokeApiKey'
+    }
+) ->
+    {[<<"GET">>], Req, State};
+
+allowed_methods(
+    Req,
+    State = #state{
+        operation_id = 'RevokeApiKeyPrivate'
     }
 ) ->
     {[<<"GET">>], Req, State};
@@ -107,6 +147,33 @@ is_authorized(
     Req0,
     State = #state{
         operation_id  = 'GetApiKey' = OperationID,
+        logic_handler = LogicHandler,
+        context       = Context
+    }
+) ->
+    From = header,
+    Result = swag_server_apikeys_handler_api:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        'Authorization',
+        Req0,
+        Context
+    ),
+    case Result of
+        {true, AuthContext, Req} ->
+            NewContext = Context#{
+                auth_context => AuthContext
+            },
+            {true, Req, State#state{context = NewContext}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
+    end;
+
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id  = 'GetApiKeyPrivate' = OperationID,
         logic_handler = LogicHandler,
         context       = Context
     }
@@ -160,7 +227,61 @@ is_authorized(
 is_authorized(
     Req0,
     State = #state{
+        operation_id  = 'IssueApiKeyPrivate' = OperationID,
+        logic_handler = LogicHandler,
+        context       = Context
+    }
+) ->
+    From = header,
+    Result = swag_server_apikeys_handler_api:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        'Authorization',
+        Req0,
+        Context
+    ),
+    case Result of
+        {true, AuthContext, Req} ->
+            NewContext = Context#{
+                auth_context => AuthContext
+            },
+            {true, Req, State#state{context = NewContext}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
+    end;
+
+is_authorized(
+    Req0,
+    State = #state{
         operation_id  = 'ListApiKeys' = OperationID,
+        logic_handler = LogicHandler,
+        context       = Context
+    }
+) ->
+    From = header,
+    Result = swag_server_apikeys_handler_api:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        'Authorization',
+        Req0,
+        Context
+    ),
+    case Result of
+        {true, AuthContext, Req} ->
+            NewContext = Context#{
+                auth_context => AuthContext
+            },
+            {true, Req, State#state{context = NewContext}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
+    end;
+
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id  = 'ListApiKeysPrivate' = OperationID,
         logic_handler = LogicHandler,
         context       = Context
     }
@@ -214,7 +335,61 @@ is_authorized(
 is_authorized(
     Req0,
     State = #state{
+        operation_id  = 'RequestRevokeApiKeyPrivate' = OperationID,
+        logic_handler = LogicHandler,
+        context       = Context
+    }
+) ->
+    From = header,
+    Result = swag_server_apikeys_handler_api:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        'Authorization',
+        Req0,
+        Context
+    ),
+    case Result of
+        {true, AuthContext, Req} ->
+            NewContext = Context#{
+                auth_context => AuthContext
+            },
+            {true, Req, State#state{context = NewContext}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
+    end;
+
+is_authorized(
+    Req0,
+    State = #state{
         operation_id  = 'RevokeApiKey' = OperationID,
+        logic_handler = LogicHandler,
+        context       = Context
+    }
+) ->
+    From = header,
+    Result = swag_server_apikeys_handler_api:authorize_api_key(
+        LogicHandler,
+        OperationID,
+        From,
+        'Authorization',
+        Req0,
+        Context
+    ),
+    case Result of
+        {true, AuthContext, Req} ->
+            NewContext = Context#{
+                auth_context => AuthContext
+            },
+            {true, Req, State#state{context = NewContext}};
+        {false, AuthHeader, Req} ->
+            {{false, AuthHeader}, Req, State}
+    end;
+
+is_authorized(
+    Req0,
+    State = #state{
+        operation_id  = 'RevokeApiKeyPrivate' = OperationID,
         logic_handler = LogicHandler,
         context       = Context
     }
@@ -269,7 +444,27 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
+        operation_id = 'GetApiKeyPrivate'
+    }
+) ->
+    Headers = ["X-Request-ID","X-Request-Deadline"],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
         operation_id = 'IssueApiKey'
+    }
+) ->
+    Headers = ["X-Request-ID","X-Request-Deadline"],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
+        operation_id = 'IssueApiKeyPrivate'
     }
 ) ->
     Headers = ["X-Request-ID","X-Request-Deadline"],
@@ -289,6 +484,16 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
+        operation_id = 'ListApiKeysPrivate'
+    }
+) ->
+    Headers = ["X-Request-ID","X-Request-Deadline"],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
         operation_id = 'RequestRevokeApiKey'
     }
 ) ->
@@ -299,7 +504,27 @@ valid_content_headers(
 valid_content_headers(
     Req0,
     State = #state{
+        operation_id = 'RequestRevokeApiKeyPrivate'
+    }
+) ->
+    Headers = ["X-Request-ID","X-Request-Deadline"],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
         operation_id = 'RevokeApiKey'
+    }
+) ->
+    Headers = ["X-Request-ID","X-Request-Deadline"],
+    {Result, Req} = validate_headers(Headers, Req0),
+    {Result, Req, State};
+
+valid_content_headers(
+    Req0,
+    State = #state{
+        operation_id = 'RevokeApiKeyPrivate'
     }
 ) ->
     Headers = ["X-Request-ID","X-Request-Deadline"],
@@ -436,6 +661,29 @@ get_request_spec('GetApiKey') ->
 , {required, false}]
         }}
     ];
+get_request_spec('GetApiKeyPrivate') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
 get_request_spec('IssueApiKey') ->
     [
         {'X-Request-ID', #{
@@ -458,7 +706,62 @@ get_request_spec('IssueApiKey') ->
 , {required, false}]
         }}
     ];
+get_request_spec('IssueApiKeyPrivate') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'ApiKeyIssue', #{
+            source => body,
+            rules  => [schema, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
 get_request_spec('ListApiKeys') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'limit', #{
+            source => qs_val,
+            rules  => [{type, 'integer'}, {format, 'int32'}, {max, 1000, inclusive}, {min, 1, inclusive}, true
+, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }},
+        {'status', #{
+            source => qs_val,
+            rules  => [{type, 'binary'}, {enum, ['active', 'revoked']}, true
+, {required, false}]
+        }},
+        {'continuationToken', #{
+            source => qs_val,
+            rules  => [{type, 'binary'}, true
+, {required, false}]
+        }}
+    ];
+get_request_spec('ListApiKeysPrivate') ->
     [
         {'X-Request-ID', #{
             source => header,
@@ -518,7 +821,62 @@ get_request_spec('RequestRevokeApiKey') ->
 , {required, false}]
         }}
     ];
+get_request_spec('RequestRevokeApiKeyPrivate') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'RequestRevoke', #{
+            source => body,
+            rules  => [schema, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
 get_request_spec('RevokeApiKey') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyRevokeToken', #{
+            source => qs_val,
+            rules  => [{type, 'binary'}, {max_length, 4000}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
+get_request_spec('RevokeApiKeyPrivate') ->
     [
         {'X-Request-ID', #{
             source => header,
@@ -563,6 +921,18 @@ get_response_spec('GetApiKey', 401) ->
 get_response_spec('GetApiKey', 404) ->
     undefined;
 
+get_response_spec('GetApiKeyPrivate', 200) ->
+    {'ApiKey', 'ApiKey'};
+
+get_response_spec('GetApiKeyPrivate', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('GetApiKeyPrivate', 401) ->
+    undefined;
+
+get_response_spec('GetApiKeyPrivate', 404) ->
+    undefined;
+
 get_response_spec('IssueApiKey', 200) ->
     {'inline_response_200_1', 'inline_response_200_1'};
 
@@ -570,6 +940,15 @@ get_response_spec('IssueApiKey', 400) ->
     {'BadRequest', 'BadRequest'};
 
 get_response_spec('IssueApiKey', 401) ->
+    undefined;
+
+get_response_spec('IssueApiKeyPrivate', 200) ->
+    {'inline_response_200_1', 'inline_response_200_1'};
+
+get_response_spec('IssueApiKeyPrivate', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('IssueApiKeyPrivate', 401) ->
     undefined;
 
 get_response_spec('ListApiKeys', 200) ->
@@ -584,6 +963,18 @@ get_response_spec('ListApiKeys', 401) ->
 get_response_spec('ListApiKeys', 404) ->
     undefined;
 
+get_response_spec('ListApiKeysPrivate', 200) ->
+    {'inline_response_200', 'inline_response_200'};
+
+get_response_spec('ListApiKeysPrivate', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('ListApiKeysPrivate', 401) ->
+    undefined;
+
+get_response_spec('ListApiKeysPrivate', 404) ->
+    undefined;
+
 get_response_spec('RequestRevokeApiKey', 204) ->
     undefined;
 
@@ -596,6 +987,18 @@ get_response_spec('RequestRevokeApiKey', 401) ->
 get_response_spec('RequestRevokeApiKey', 404) ->
     undefined;
 
+get_response_spec('RequestRevokeApiKeyPrivate', 204) ->
+    undefined;
+
+get_response_spec('RequestRevokeApiKeyPrivate', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('RequestRevokeApiKeyPrivate', 401) ->
+    undefined;
+
+get_response_spec('RequestRevokeApiKeyPrivate', 404) ->
+    undefined;
+
 get_response_spec('RevokeApiKey', 204) ->
     undefined;
 
@@ -606,6 +1009,18 @@ get_response_spec('RevokeApiKey', 401) ->
     undefined;
 
 get_response_spec('RevokeApiKey', 404) ->
+    undefined;
+
+get_response_spec('RevokeApiKeyPrivate', 204) ->
+    undefined;
+
+get_response_spec('RevokeApiKeyPrivate', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('RevokeApiKeyPrivate', 401) ->
+    undefined;
+
+get_response_spec('RevokeApiKeyPrivate', 404) ->
     undefined;
 
 get_response_spec(OperationID, Code) ->
