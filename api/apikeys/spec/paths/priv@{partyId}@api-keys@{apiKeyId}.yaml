@@ -1,6 +1,7 @@
 ---
 get:
   summary: Получить данные ключа
+  security: []
   operationId: getApiKeyPrivate
   tags:
     - apiKeys
