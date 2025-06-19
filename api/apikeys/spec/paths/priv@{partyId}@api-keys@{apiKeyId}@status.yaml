@@ -1,0 +1,30 @@
+---
+put:
+  summary: Запросить отзыв ключа
+  description: |
+    Просит отозвать Api Key, для подтверждения запроса
+    посылает на почту запросившего письмо с ссылкой на
+    revokeApiKey для подтверждения операции
+  operationId: requestRevokeApiKey
+  tags:
+    - apiKeys
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyId'
+    - $ref: '#/parameters/apiKeyId'
+    - name: requestRevoke
+      description: Status to change Api Key into
+      in: body
+      required: true
+      schema:
+        $ref: '#/definitions/RequestRevoke'
+  responses:
+    '204':
+      description: Запрос на операцию получен
+    "404":
+      $ref: "#/responses/NotFound"
+    '401':
+      $ref: "#/responses/Unauthorized"
+    '400':
+      $ref: '#/responses/BadRequest'
