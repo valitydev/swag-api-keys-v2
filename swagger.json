@@ -378,6 +378,7 @@
     "/priv/{partyId}/api-keys": {
       "get": {
         "summary": "Перечислить ключи организации",
+        "security": [],
         "operationId": "listApiKeysPrivate",
         "tags": [
           "apiKeys"
@@ -449,6 +450,7 @@
       },
       "post": {
         "summary": "Выпустить новый ключ",
+        "security": [],
         "operationId": "issueApiKeyPrivate",
         "tags": [
           "apiKeys"
@@ -503,6 +505,7 @@
     "/priv/{partyId}/api-keys/{apiKeyId}": {
       "get": {
         "summary": "Получить данные ключа",
+        "security": [],
         "operationId": "getApiKeyPrivate",
         "tags": [
           "apiKeys"
@@ -543,6 +546,7 @@
     "/priv/{partyId}/api-keys/{apiKeyId}/status": {
       "put": {
         "summary": "Запросить отзыв ключа",
+        "security": [],
         "description": "Просит отозвать Api Key, для подтверждения запроса\nпосылает на почту запросившего письмо с ссылкой на\nrevokeApiKey для подтверждения операции\n",
         "operationId": "requestRevokeApiKeyPrivate",
         "tags": [
@@ -590,6 +594,7 @@
     "/priv/{partyId}/revoke-api-key/{apiKeyId}": {
       "get": {
         "summary": "Отозвать ключ",
+        "security": [],
         "description": "Ссылка на этот запрос приходит на почту запросившего\nrequestRevokeApiKey, в результате выполнения этого запроса\nApi Key будет отозван\n",
         "operationId": "revokeApiKeyPrivate",
         "tags": [

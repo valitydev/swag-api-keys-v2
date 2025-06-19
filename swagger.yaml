@@ -299,6 +299,7 @@ paths:
   '/priv/{partyId}/api-keys':
     get:
       summary: Перечислить ключи организации
+      security: []
       operationId: listApiKeysPrivate
       tags:
         - apiKeys
@@ -350,6 +351,7 @@ paths:
           $ref: '#/responses/NotFound'
     post:
       summary: Выпустить новый ключ
+      security: []
       operationId: issueApiKeyPrivate
       tags:
         - apiKeys
@@ -382,6 +384,7 @@ paths:
   '/priv/{partyId}/api-keys/{apiKeyId}':
     get:
       summary: Получить данные ключа
+      security: []
       operationId: getApiKeyPrivate
       tags:
         - apiKeys
@@ -404,6 +407,7 @@ paths:
   '/priv/{partyId}/api-keys/{apiKeyId}/status':
     put:
       summary: Запросить отзыв ключа
+      security: []
       description: |
         Просит отозвать Api Key, для подтверждения запроса
         посылает на почту запросившего письмо с ссылкой на
@@ -434,6 +438,7 @@ paths:
   '/priv/{partyId}/revoke-api-key/{apiKeyId}':
     get:
       summary: Отозвать ключ
+      security: []
       description: |
         Ссылка на этот запрос приходит на почту запросившего
         requestRevokeApiKey, в результате выполнения этого запроса
