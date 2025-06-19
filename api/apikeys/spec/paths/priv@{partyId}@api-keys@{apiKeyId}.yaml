@@ -1,7 +1,7 @@
 ---
 get:
   summary: Получить данные ключа
-  operationId: getApiKey
+  operationId: getApiKeyPrivate
   tags:
     - apiKeys
   parameters:

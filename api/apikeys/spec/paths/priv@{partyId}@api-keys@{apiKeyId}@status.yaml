@@ -5,7 +5,7 @@ put:
     Просит отозвать Api Key, для подтверждения запроса
     посылает на почту запросившего письмо с ссылкой на
     revokeApiKey для подтверждения операции
-  operationId: requestRevokeApiKey
+  operationId: requestRevokeApiKeyPrivate
   tags:
     - apiKeys
   parameters:

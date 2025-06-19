@@ -5,7 +5,7 @@ get:
     Ссылка на этот запрос приходит на почту запросившего
     requestRevokeApiKey, в результате выполнения этого запроса
     Api Key будет отозван
-  operationId: revokeApiKey
+  operationId: revokeApiKeyPrivate
   tags:
     - apiKeys
   parameters:

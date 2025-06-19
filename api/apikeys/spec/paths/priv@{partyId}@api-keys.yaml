@@ -1,7 +1,7 @@
 ---
 get:
   summary: Перечислить ключи организации
-  operationId: listApiKeys
+  operationId: listApiKeysPrivate
   tags:
     - apiKeys
   parameters:
@@ -47,7 +47,7 @@ get:
 
 post:
   summary: Выпустить новый ключ
-  operationId: issueApiKey
+  operationId: issueApiKeyPrivate
   tags:
     - apiKeys
   parameters:
