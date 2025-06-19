@@ -431,6 +431,326 @@ get_raw() ->
           }
         }
       }
+    },
+    <<"/priv/{partyId}/api-keys">> => #{
+      <<"get">> => #{
+        <<"tags">> => [ <<"apiKeys">> ],
+        <<"summary">> => <<"Перечислить ключи организации">>,
+        <<"operationId">> => <<"listApiKeysPrivate">>,
+        <<"parameters">> => [ #{
+          <<"name">> => <<"X-Request-ID">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Unique identifier of the request to the system">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 32,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"X-Request-Deadline">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Maximum request processing time">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"partyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор участника">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"status">>,
+          <<"in">> => <<"query">>,
+          <<"description">> => <<"Фильтр по статусу ключа. По умолчанию `active`.\n">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>,
+          <<"enum">> => [ <<"active">>, <<"revoked">> ]
+        }, #{
+          <<"name">> => <<"limit">>,
+          <<"in">> => <<"query">>,
+          <<"description">> => <<"Selection limit">>,
+          <<"required">> => true,
+          <<"type">> => <<"integer">>,
+          <<"maximum">> => 1000,
+          <<"minimum">> => 1,
+          <<"format">> => <<"int32">>
+        }, #{
+          <<"name">> => <<"continuationToken">>,
+          <<"in">> => <<"query">>,
+          <<"description">> => <<"A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>
+        } ],
+        <<"responses">> => #{
+          <<"200">> => #{
+            <<"description">> => <<"Ключи найдены">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/inline_response_200">>
+            }
+          },
+          <<"400">> => #{
+            <<"description">> => <<"Invalid input data for operation">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/BadRequest">>
+            }
+          },
+          <<"401">> => #{
+            <<"description">> => <<"Authorization error">>
+          },
+          <<"404">> => #{
+            <<"description">> => <<"The content you are looking for was not found">>
+          }
+        }
+      },
+      <<"post">> => #{
+        <<"tags">> => [ <<"apiKeys">> ],
+        <<"summary">> => <<"Выпустить новый ключ">>,
+        <<"operationId">> => <<"issueApiKeyPrivate">>,
+        <<"parameters">> => [ #{
+          <<"name">> => <<"X-Request-ID">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Unique identifier of the request to the system">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 32,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"X-Request-Deadline">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Maximum request processing time">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"partyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор участника">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"in">> => <<"body">>,
+          <<"name">> => <<"apiKeyIssue">>,
+          <<"required">> => true,
+          <<"schema">> => #{
+            <<"$ref">> => <<"#/definitions/ApiKeyIssue">>
+          }
+        } ],
+        <<"responses">> => #{
+          <<"200">> => #{
+            <<"description">> => <<"Ключ выпущен">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/inline_response_200_1">>
+            }
+          },
+          <<"400">> => #{
+            <<"description">> => <<"Invalid input data for operation">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/BadRequest">>
+            }
+          },
+          <<"401">> => #{
+            <<"description">> => <<"Authorization error">>
+          }
+        }
+      }
+    },
+    <<"/priv/{partyId}/api-keys/{apiKeyId}">> => #{
+      <<"get">> => #{
+        <<"tags">> => [ <<"apiKeys">> ],
+        <<"summary">> => <<"Получить данные ключа">>,
+        <<"operationId">> => <<"getApiKeyPrivate">>,
+        <<"parameters">> => [ #{
+          <<"name">> => <<"X-Request-ID">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Unique identifier of the request to the system">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 32,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"X-Request-Deadline">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Maximum request processing time">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"partyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор участника">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"apiKeyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор ключа">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        } ],
+        <<"responses">> => #{
+          <<"200">> => #{
+            <<"description">> => <<"Ключ найден">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/ApiKey">>
+            }
+          },
+          <<"400">> => #{
+            <<"description">> => <<"Invalid input data for operation">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/BadRequest">>
+            }
+          },
+          <<"401">> => #{
+            <<"description">> => <<"Authorization error">>
+          },
+          <<"404">> => #{
+            <<"description">> => <<"The content you are looking for was not found">>
+          }
+        }
+      }
+    },
+    <<"/priv/{partyId}/api-keys/{apiKeyId}/status">> => #{
+      <<"put">> => #{
+        <<"tags">> => [ <<"apiKeys">> ],
+        <<"summary">> => <<"Запросить отзыв ключа">>,
+        <<"description">> => <<"Просит отозвать Api Key, для подтверждения запроса\nпосылает на почту запросившего письмо с ссылкой на\nrevokeApiKey для подтверждения операции\n">>,
+        <<"operationId">> => <<"requestRevokeApiKeyPrivate">>,
+        <<"parameters">> => [ #{
+          <<"name">> => <<"X-Request-ID">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Unique identifier of the request to the system">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 32,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"X-Request-Deadline">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Maximum request processing time">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"partyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор участника">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"apiKeyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор ключа">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"in">> => <<"body">>,
+          <<"name">> => <<"requestRevoke">>,
+          <<"description">> => <<"Status to change Api Key into">>,
+          <<"required">> => true,
+          <<"schema">> => #{
+            <<"$ref">> => <<"#/definitions/RequestRevoke">>
+          }
+        } ],
+        <<"responses">> => #{
+          <<"204">> => #{
+            <<"description">> => <<"Запрос на операцию получен">>
+          },
+          <<"400">> => #{
+            <<"description">> => <<"Invalid input data for operation">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/BadRequest">>
+            }
+          },
+          <<"401">> => #{
+            <<"description">> => <<"Authorization error">>
+          },
+          <<"404">> => #{
+            <<"description">> => <<"The content you are looking for was not found">>
+          }
+        }
+      }
+    },
+    <<"/priv/{partyId}/revoke-api-key/{apiKeyId}">> => #{
+      <<"get">> => #{
+        <<"tags">> => [ <<"apiKeys">> ],
+        <<"summary">> => <<"Отозвать ключ">>,
+        <<"description">> => <<"Ссылка на этот запрос приходит на почту запросившего\nrequestRevokeApiKey, в результате выполнения этого запроса\nApi Key будет отозван\n">>,
+        <<"operationId">> => <<"revokeApiKeyPrivate">>,
+        <<"parameters">> => [ #{
+          <<"name">> => <<"X-Request-ID">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Unique identifier of the request to the system">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 32,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"X-Request-Deadline">>,
+          <<"in">> => <<"header">>,
+          <<"description">> => <<"Maximum request processing time">>,
+          <<"required">> => false,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"partyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор участника">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"apiKeyId">>,
+          <<"in">> => <<"path">>,
+          <<"description">> => <<"Идентификатор ключа">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 40,
+          <<"minLength">> => 1
+        }, #{
+          <<"name">> => <<"apiKeyRevokeToken">>,
+          <<"in">> => <<"query">>,
+          <<"description">> => <<"Токен отзыва ключа">>,
+          <<"required">> => true,
+          <<"type">> => <<"string">>,
+          <<"maxLength">> => 4000,
+          <<"minLength">> => 1
+        } ],
+        <<"responses">> => #{
+          <<"204">> => #{
+            <<"description">> => <<"Ключ отозван">>
+          },
+          <<"400">> => #{
+            <<"description">> => <<"Invalid input data for operation">>,
+            <<"schema">> => #{
+              <<"$ref">> => <<"#/definitions/BadRequest">>
+            }
+          },
+          <<"401">> => #{
+            <<"description">> => <<"Authorization error">>
+          },
+          <<"404">> => #{
+            <<"description">> => <<"The content you are looking for was not found">>
+          }
+        }
+      }
     }
   },
   <<"securityDefinitions">> => #{

@@ -6,17 +6,32 @@
 -export([get_api_key/2]).
 -export([get_api_key/3]).
 
+-export([get_api_key_private/2]).
+-export([get_api_key_private/3]).
+
 -export([issue_api_key/2]).
 -export([issue_api_key/3]).
+
+-export([issue_api_key_private/2]).
+-export([issue_api_key_private/3]).
 
 -export([list_api_keys/2]).
 -export([list_api_keys/3]).
 
+-export([list_api_keys_private/2]).
+-export([list_api_keys_private/3]).
+
 -export([request_revoke_api_key/2]).
 -export([request_revoke_api_key/3]).
 
+-export([request_revoke_api_key_private/2]).
+-export([request_revoke_api_key_private/3]).
+
 -export([revoke_api_key/2]).
 -export([revoke_api_key/3]).
+
+-export([revoke_api_key_private/2]).
+-export([revoke_api_key_private/3]).
 
 
 -spec get_api_key(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
@@ -37,6 +52,24 @@ get_api_key(Endpoint, Params, Opts) ->
         Opts
     ), get_api_key).
 
+-spec get_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+get_api_key_private(Endpoint, Params) ->
+    get_api_key_private(Endpoint, Params, []).
+
+-spec get_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map(), Opts :: swag_client_apikeys:transport_opts()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+get_api_key_private(Endpoint, Params, Opts) ->
+    process_response(swag_client_apikeys_procession:process_request(
+        get,
+        swag_client_apikeys_utils:get_url(Endpoint, "/apikeys/v2/priv/:partyId/api-keys/:apiKeyId"),
+        Params,
+        get_request_spec(get_api_key_private),
+        Opts
+    ), get_api_key_private).
+
 -spec issue_api_key(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
     {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
     {error, _Reason}.
@@ -54,6 +87,24 @@ issue_api_key(Endpoint, Params, Opts) ->
         get_request_spec(issue_api_key),
         Opts
     ), issue_api_key).
+
+-spec issue_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+issue_api_key_private(Endpoint, Params) ->
+    issue_api_key_private(Endpoint, Params, []).
+
+-spec issue_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map(), Opts :: swag_client_apikeys:transport_opts()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+issue_api_key_private(Endpoint, Params, Opts) ->
+    process_response(swag_client_apikeys_procession:process_request(
+        post,
+        swag_client_apikeys_utils:get_url(Endpoint, "/apikeys/v2/priv/:partyId/api-keys"),
+        Params,
+        get_request_spec(issue_api_key_private),
+        Opts
+    ), issue_api_key_private).
 
 -spec list_api_keys(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
     {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
@@ -73,6 +124,24 @@ list_api_keys(Endpoint, Params, Opts) ->
         Opts
     ), list_api_keys).
 
+-spec list_api_keys_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+list_api_keys_private(Endpoint, Params) ->
+    list_api_keys_private(Endpoint, Params, []).
+
+-spec list_api_keys_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map(), Opts :: swag_client_apikeys:transport_opts()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+list_api_keys_private(Endpoint, Params, Opts) ->
+    process_response(swag_client_apikeys_procession:process_request(
+        get,
+        swag_client_apikeys_utils:get_url(Endpoint, "/apikeys/v2/priv/:partyId/api-keys"),
+        Params,
+        get_request_spec(list_api_keys_private),
+        Opts
+    ), list_api_keys_private).
+
 -spec request_revoke_api_key(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
     {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
     {error, _Reason}.
@@ -91,6 +160,24 @@ request_revoke_api_key(Endpoint, Params, Opts) ->
         Opts
     ), request_revoke_api_key).
 
+-spec request_revoke_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+request_revoke_api_key_private(Endpoint, Params) ->
+    request_revoke_api_key_private(Endpoint, Params, []).
+
+-spec request_revoke_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map(), Opts :: swag_client_apikeys:transport_opts()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+request_revoke_api_key_private(Endpoint, Params, Opts) ->
+    process_response(swag_client_apikeys_procession:process_request(
+        put,
+        swag_client_apikeys_utils:get_url(Endpoint, "/apikeys/v2/priv/:partyId/api-keys/:apiKeyId/status"),
+        Params,
+        get_request_spec(request_revoke_api_key_private),
+        Opts
+    ), request_revoke_api_key_private).
+
 -spec revoke_api_key(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
     {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
     {error, _Reason}.
@@ -108,6 +195,24 @@ revoke_api_key(Endpoint, Params, Opts) ->
         get_request_spec(revoke_api_key),
         Opts
     ), revoke_api_key).
+
+-spec revoke_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+revoke_api_key_private(Endpoint, Params) ->
+    revoke_api_key_private(Endpoint, Params, []).
+
+-spec revoke_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map(), Opts :: swag_client_apikeys:transport_opts()) ->
+    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
+    {error, _Reason}.
+revoke_api_key_private(Endpoint, Params, Opts) ->
+    process_response(swag_client_apikeys_procession:process_request(
+        get,
+        swag_client_apikeys_utils:get_url(Endpoint, "/apikeys/v2/priv/:partyId/revoke-api-key/:apiKeyId"),
+        Params,
+        get_request_spec(revoke_api_key_private),
+        Opts
+    ), revoke_api_key_private).
 
 process_response({ok, Code, Headers, RespBody}, OperationID) ->
     try swag_client_apikeys_procession:process_response(
@@ -153,6 +258,29 @@ get_request_spec('get_api_key') ->
 , {required, false}]
         }}
     ];
+get_request_spec('get_api_key_private') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
 get_request_spec('issue_api_key') ->
     [
         {'X-Request-ID', #{
@@ -175,7 +303,62 @@ get_request_spec('issue_api_key') ->
 , {required, false}]
         }}
     ];
+get_request_spec('issue_api_key_private') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'ApiKeyIssue', #{
+            source => body,
+            rules  => [schema, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
 get_request_spec('list_api_keys') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'limit', #{
+            source => qs_val,
+            rules  => [{type, 'integer'}, {format, 'int32'}, {max, 1000, inclusive}, {min, 1, inclusive}, true
+, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }},
+        {'status', #{
+            source => qs_val,
+            rules  => [{type, 'binary'}, {enum, ['active', 'revoked']}, true
+, {required, false}]
+        }},
+        {'continuationToken', #{
+            source => qs_val,
+            rules  => [{type, 'binary'}, true
+, {required, false}]
+        }}
+    ];
+get_request_spec('list_api_keys_private') ->
     [
         {'X-Request-ID', #{
             source => header,
@@ -235,7 +418,62 @@ get_request_spec('request_revoke_api_key') ->
 , {required, false}]
         }}
     ];
+get_request_spec('request_revoke_api_key_private') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'RequestRevoke', #{
+            source => body,
+            rules  => [schema, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
 get_request_spec('revoke_api_key') ->
+    [
+        {'X-Request-ID', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'partyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyId', #{
+            source => binding,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'apiKeyRevokeToken', #{
+            source => qs_val,
+            rules  => [{type, 'binary'}, {max_length, 4000}, {min_length, 1}, true
+, {required, true}]
+        }},
+        {'X-Request-Deadline', #{
+            source => header,
+            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
+, {required, false}]
+        }}
+    ];
+get_request_spec('revoke_api_key_private') ->
     [
         {'X-Request-ID', #{
             source => header,
@@ -280,6 +518,18 @@ get_response_spec('get_api_key', 401) ->
 get_response_spec('get_api_key', 404) ->
     undefined;
 
+get_response_spec('get_api_key_private', 200) ->
+    {'ApiKey', 'ApiKey'};
+
+get_response_spec('get_api_key_private', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('get_api_key_private', 401) ->
+    undefined;
+
+get_response_spec('get_api_key_private', 404) ->
+    undefined;
+
 get_response_spec('issue_api_key', 200) ->
     {'inline_response_200_1', 'inline_response_200_1'};
 
@@ -287,6 +537,15 @@ get_response_spec('issue_api_key', 400) ->
     {'BadRequest', 'BadRequest'};
 
 get_response_spec('issue_api_key', 401) ->
+    undefined;
+
+get_response_spec('issue_api_key_private', 200) ->
+    {'inline_response_200_1', 'inline_response_200_1'};
+
+get_response_spec('issue_api_key_private', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('issue_api_key_private', 401) ->
     undefined;
 
 get_response_spec('list_api_keys', 200) ->
@@ -301,6 +560,18 @@ get_response_spec('list_api_keys', 401) ->
 get_response_spec('list_api_keys', 404) ->
     undefined;
 
+get_response_spec('list_api_keys_private', 200) ->
+    {'inline_response_200', 'inline_response_200'};
+
+get_response_spec('list_api_keys_private', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('list_api_keys_private', 401) ->
+    undefined;
+
+get_response_spec('list_api_keys_private', 404) ->
+    undefined;
+
 get_response_spec('request_revoke_api_key', 204) ->
     undefined;
 
@@ -313,6 +584,18 @@ get_response_spec('request_revoke_api_key', 401) ->
 get_response_spec('request_revoke_api_key', 404) ->
     undefined;
 
+get_response_spec('request_revoke_api_key_private', 204) ->
+    undefined;
+
+get_response_spec('request_revoke_api_key_private', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('request_revoke_api_key_private', 401) ->
+    undefined;
+
+get_response_spec('request_revoke_api_key_private', 404) ->
+    undefined;
+
 get_response_spec('revoke_api_key', 204) ->
     undefined;
 
@@ -323,6 +606,18 @@ get_response_spec('revoke_api_key', 401) ->
     undefined;
 
 get_response_spec('revoke_api_key', 404) ->
+    undefined;
+
+get_response_spec('revoke_api_key_private', 204) ->
+    undefined;
+
+get_response_spec('revoke_api_key_private', 400) ->
+    {'BadRequest', 'BadRequest'};
+
+get_response_spec('revoke_api_key_private', 401) ->
+    undefined;
+
+get_response_spec('revoke_api_key_private', 404) ->
     undefined;
 
 get_response_spec(_, _) ->
