@@ -374,6 +374,259 @@
           }
         }
       }
+    },
+    "/priv/{partyId}/api-keys": {
+      "get": {
+        "summary": "Перечислить ключи организации",
+        "operationId": "listApiKeysPrivate",
+        "tags": [
+          "apiKeys"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/partyId"
+          },
+          {
+            "name": "status",
+            "description": "Фильтр по статусу ключа. По умолчанию `active`.\n",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "active",
+              "revoked"
+            ]
+          },
+          {
+            "$ref": "#/parameters/limit"
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "required": false,
+            "description": "A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ключи найдены",
+            "schema": {
+              "type": "object",
+              "required": [
+                "results"
+              ],
+              "properties": {
+                "continuationToken": {
+                  "description": "A token signalling that only part of the data has been transmitted in the response.\nTo retrieve the next part, you need repeat the request to the service again, specifying the same set of conditions and the received token.\nIf there is no token, the last piece of data is received.\n",
+                  "type": "string"
+                },
+                "results": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ApiKey"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      },
+      "post": {
+        "summary": "Выпустить новый ключ",
+        "operationId": "issueApiKeyPrivate",
+        "tags": [
+          "apiKeys"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/partyId"
+          },
+          {
+            "name": "apiKeyIssue",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiKeyIssue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ключ выпущен",
+            "schema": {
+              "type": "object",
+              "required": [
+                "accessToken",
+                "apiKey"
+              ],
+              "properties": {
+                "accessToken": {
+                  "$ref": "#/definitions/AccessToken"
+                },
+                "apiKey": {
+                  "$ref": "#/definitions/ApiKey"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/priv/{partyId}/api-keys/{apiKeyId}": {
+      "get": {
+        "summary": "Получить данные ключа",
+        "operationId": "getApiKeyPrivate",
+        "tags": [
+          "apiKeys"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/partyId"
+          },
+          {
+            "$ref": "#/parameters/apiKeyId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ключ найден",
+            "schema": {
+              "$ref": "#/definitions/ApiKey"
+            }
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/priv/{partyId}/api-keys/{apiKeyId}/status": {
+      "put": {
+        "summary": "Запросить отзыв ключа",
+        "description": "Просит отозвать Api Key, для подтверждения запроса\nпосылает на почту запросившего письмо с ссылкой на\nrevokeApiKey для подтверждения операции\n",
+        "operationId": "requestRevokeApiKeyPrivate",
+        "tags": [
+          "apiKeys"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/partyId"
+          },
+          {
+            "$ref": "#/parameters/apiKeyId"
+          },
+          {
+            "name": "requestRevoke",
+            "description": "Status to change Api Key into",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RequestRevoke"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Запрос на операцию получен"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/priv/{partyId}/revoke-api-key/{apiKeyId}": {
+      "get": {
+        "summary": "Отозвать ключ",
+        "description": "Ссылка на этот запрос приходит на почту запросившего\nrequestRevokeApiKey, в результате выполнения этого запроса\nApi Key будет отозван\n",
+        "operationId": "revokeApiKeyPrivate",
+        "tags": [
+          "apiKeys"
+        ],
+        "parameters": [
+          {
+            "$ref": "#/parameters/requestID"
+          },
+          {
+            "$ref": "#/parameters/deadline"
+          },
+          {
+            "$ref": "#/parameters/partyId"
+          },
+          {
+            "$ref": "#/parameters/apiKeyId"
+          },
+          {
+            "$ref": "#/parameters/apiKeyRevokeToken"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Ключ отозван"
+          },
+          "400": {
+            "$ref": "#/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/responses/Unauthorized"
+          },
+          "404": {
+            "$ref": "#/responses/NotFound"
+          }
+        }
+      }
     }
   },
   "definitions": {
