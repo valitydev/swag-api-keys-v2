@@ -1,0 +1,22 @@
+---
+get:
+  summary: Получить данные ключа
+  operationId: getApiKeyPrivate
+  tags:
+    - apiKeys
+  parameters:
+    - $ref: '#/parameters/requestID'
+    - $ref: '#/parameters/deadline'
+    - $ref: '#/parameters/partyId'
+    - $ref: '#/parameters/apiKeyId'
+  responses:
+    '200':
+      description: Ключ найден
+      schema:
+        $ref: '#/definitions/ApiKey'
+    '404':
+      $ref: "#/responses/NotFound"
+    '401':
+      $ref: "#/responses/Unauthorized"
+    '400':
+      $ref: '#/responses/BadRequest'
