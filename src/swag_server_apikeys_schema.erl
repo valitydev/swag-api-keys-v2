@@ -484,6 +484,7 @@ get_raw() ->
           <<"required">> => false,
           <<"type">> => <<"string">>
         } ],
+        <<"security">> => [ ],
         <<"responses">> => #{
           <<"200">> => #{
             <<"description">> => <<"Ключи найдены">>,
@@ -541,6 +542,7 @@ get_raw() ->
             <<"$ref">> => <<"#/definitions/ApiKeyIssue">>
           }
         } ],
+        <<"security">> => [ ],
         <<"responses">> => #{
           <<"200">> => #{
             <<"description">> => <<"Ключ выпущен">>,
@@ -598,6 +600,7 @@ get_raw() ->
           <<"maxLength">> => 40,
           <<"minLength">> => 1
         } ],
+        <<"security">> => [ ],
         <<"responses">> => #{
           <<"200">> => #{
             <<"description">> => <<"Ключ найден">>,
@@ -667,6 +670,7 @@ get_raw() ->
             <<"$ref">> => <<"#/definitions/RequestRevoke">>
           }
         } ],
+        <<"security">> => [ ],
         <<"responses">> => #{
           <<"204">> => #{
             <<"description">> => <<"Запрос на операцию получен">>
@@ -733,6 +737,7 @@ get_raw() ->
           <<"maxLength">> => 4000,
           <<"minLength">> => 1
         } ],
+        <<"security">> => [ ],
         <<"responses">> => #{
           <<"204">> => #{
             <<"description">> => <<"Ключ отозван">>

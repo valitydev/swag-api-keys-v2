@@ -171,31 +171,12 @@ is_authorized(
     end;
 
 is_authorized(
-    Req0,
+    Req,
     State = #state{
-        operation_id  = 'GetApiKeyPrivate' = OperationID,
-        logic_handler = LogicHandler,
-        context       = Context
+        operation_id  = 'GetApiKeyPrivate'
     }
 ) ->
-    From = header,
-    Result = swag_server_apikeys_handler_api:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        'Authorization',
-        Req0,
-        Context
-    ),
-    case Result of
-        {true, AuthContext, Req} ->
-            NewContext = Context#{
-                auth_context => AuthContext
-            },
-            {true, Req, State#state{context = NewContext}};
-        {false, AuthHeader, Req} ->
-            {{false, AuthHeader}, Req, State}
-    end;
+    {true, Req, State};
 
 is_authorized(
     Req0,
@@ -225,31 +206,12 @@ is_authorized(
     end;
 
 is_authorized(
-    Req0,
+    Req,
     State = #state{
-        operation_id  = 'IssueApiKeyPrivate' = OperationID,
-        logic_handler = LogicHandler,
-        context       = Context
+        operation_id  = 'IssueApiKeyPrivate'
     }
 ) ->
-    From = header,
-    Result = swag_server_apikeys_handler_api:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        'Authorization',
-        Req0,
-        Context
-    ),
-    case Result of
-        {true, AuthContext, Req} ->
-            NewContext = Context#{
-                auth_context => AuthContext
-            },
-            {true, Req, State#state{context = NewContext}};
-        {false, AuthHeader, Req} ->
-            {{false, AuthHeader}, Req, State}
-    end;
+    {true, Req, State};
 
 is_authorized(
     Req0,
@@ -279,31 +241,12 @@ is_authorized(
     end;
 
 is_authorized(
-    Req0,
+    Req,
     State = #state{
-        operation_id  = 'ListApiKeysPrivate' = OperationID,
-        logic_handler = LogicHandler,
-        context       = Context
+        operation_id  = 'ListApiKeysPrivate'
     }
 ) ->
-    From = header,
-    Result = swag_server_apikeys_handler_api:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        'Authorization',
-        Req0,
-        Context
-    ),
-    case Result of
-        {true, AuthContext, Req} ->
-            NewContext = Context#{
-                auth_context => AuthContext
-            },
-            {true, Req, State#state{context = NewContext}};
-        {false, AuthHeader, Req} ->
-            {{false, AuthHeader}, Req, State}
-    end;
+    {true, Req, State};
 
 is_authorized(
     Req0,
@@ -333,31 +276,12 @@ is_authorized(
     end;
 
 is_authorized(
-    Req0,
+    Req,
     State = #state{
-        operation_id  = 'RequestRevokeApiKeyPrivate' = OperationID,
-        logic_handler = LogicHandler,
-        context       = Context
+        operation_id  = 'RequestRevokeApiKeyPrivate'
     }
 ) ->
-    From = header,
-    Result = swag_server_apikeys_handler_api:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        'Authorization',
-        Req0,
-        Context
-    ),
-    case Result of
-        {true, AuthContext, Req} ->
-            NewContext = Context#{
-                auth_context => AuthContext
-            },
-            {true, Req, State#state{context = NewContext}};
-        {false, AuthHeader, Req} ->
-            {{false, AuthHeader}, Req, State}
-    end;
+    {true, Req, State};
 
 is_authorized(
     Req0,
@@ -387,31 +311,12 @@ is_authorized(
     end;
 
 is_authorized(
-    Req0,
+    Req,
     State = #state{
-        operation_id  = 'RevokeApiKeyPrivate' = OperationID,
-        logic_handler = LogicHandler,
-        context       = Context
+        operation_id  = 'RevokeApiKeyPrivate'
     }
 ) ->
-    From = header,
-    Result = swag_server_apikeys_handler_api:authorize_api_key(
-        LogicHandler,
-        OperationID,
-        From,
-        'Authorization',
-        Req0,
-        Context
-    ),
-    case Result of
-        {true, AuthContext, Req} ->
-            NewContext = Context#{
-                auth_context => AuthContext
-            },
-            {true, Req, State#state{context = NewContext}};
-        {false, AuthHeader, Req} ->
-            {{false, AuthHeader}, Req, State}
-    end;
+    {true, Req, State};
 
 is_authorized(Req, State) ->
     {{false, <<"">>}, Req, State}.
