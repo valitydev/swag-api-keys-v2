@@ -30,9 +30,6 @@
 -export([revoke_api_key/2]).
 -export([revoke_api_key/3]).
 
--export([revoke_api_key_private/2]).
--export([revoke_api_key_private/3]).
-
 
 -spec get_api_key(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
     {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
@@ -195,24 +192,6 @@ revoke_api_key(Endpoint, Params, Opts) ->
         get_request_spec(revoke_api_key),
         Opts
     ), revoke_api_key).
-
--spec revoke_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map()) ->
-    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
-    {error, _Reason}.
-revoke_api_key_private(Endpoint, Params) ->
-    revoke_api_key_private(Endpoint, Params, []).
-
--spec revoke_api_key_private(Endpoint :: swag_client_apikeys:endpoint(), Params :: map(), Opts :: swag_client_apikeys:transport_opts()) ->
-    {ok, Code :: integer(), RespHeaders :: list(), Response :: map()} |
-    {error, _Reason}.
-revoke_api_key_private(Endpoint, Params, Opts) ->
-    process_response(swag_client_apikeys_procession:process_request(
-        get,
-        swag_client_apikeys_utils:get_url(Endpoint, "/apikeys/v2/priv/:partyId/revoke-api-key/:apiKeyId"),
-        Params,
-        get_request_spec(revoke_api_key_private),
-        Opts
-    ), revoke_api_key_private).
 
 process_response({ok, Code, Headers, RespBody}, OperationID) ->
     try swag_client_apikeys_procession:process_response(
@@ -472,34 +451,6 @@ get_request_spec('revoke_api_key') ->
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
 , {required, false}]
         }}
-    ];
-get_request_spec('revoke_api_key_private') ->
-    [
-        {'X-Request-ID', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'partyId', #{
-            source => binding,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'apiKeyId', #{
-            source => binding,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'apiKeyRevokeToken', #{
-            source => qs_val,
-            rules  => [{type, 'binary'}, {max_length, 4000}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'X-Request-Deadline', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, false}]
-        }}
     ].
 
 -spec get_response_spec(OperationID :: swag_client_apikeys:operation_id(), Code :: swag_client_apikeys_procession:code()) ->
@@ -606,18 +557,6 @@ get_response_spec('revoke_api_key', 401) ->
     undefined;
 
 get_response_spec('revoke_api_key', 404) ->
-    undefined;
-
-get_response_spec('revoke_api_key_private', 204) ->
-    undefined;
-
-get_response_spec('revoke_api_key_private', 400) ->
-    {'BadRequest', 'BadRequest'};
-
-get_response_spec('revoke_api_key_private', 401) ->
-    undefined;
-
-get_response_spec('revoke_api_key_private', 404) ->
     undefined;
 
 get_response_spec(_, _) ->

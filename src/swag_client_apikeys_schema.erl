@@ -673,74 +673,7 @@ get_raw() ->
         <<"security">> => [ ],
         <<"responses">> => #{
           <<"204">> => #{
-            <<"description">> => <<"Запрос на операцию получен">>
-          },
-          <<"400">> => #{
-            <<"description">> => <<"Invalid input data for operation">>,
-            <<"schema">> => #{
-              <<"$ref">> => <<"#/definitions/BadRequest">>
-            }
-          },
-          <<"401">> => #{
-            <<"description">> => <<"Authorization error">>
-          },
-          <<"404">> => #{
-            <<"description">> => <<"The content you are looking for was not found">>
-          }
-        }
-      }
-    },
-    <<"/priv/{partyId}/revoke-api-key/{apiKeyId}">> => #{
-      <<"get">> => #{
-        <<"tags">> => [ <<"apiKeys">> ],
-        <<"summary">> => <<"Отозвать ключ">>,
-        <<"description">> => <<"Ссылка на этот запрос приходит на почту запросившего\nrequestRevokeApiKey, в результате выполнения этого запроса\nApi Key будет отозван\n">>,
-        <<"operationId">> => <<"revokeApiKeyPrivate">>,
-        <<"parameters">> => [ #{
-          <<"name">> => <<"X-Request-ID">>,
-          <<"in">> => <<"header">>,
-          <<"description">> => <<"Unique identifier of the request to the system">>,
-          <<"required">> => true,
-          <<"type">> => <<"string">>,
-          <<"maxLength">> => 32,
-          <<"minLength">> => 1
-        }, #{
-          <<"name">> => <<"X-Request-Deadline">>,
-          <<"in">> => <<"header">>,
-          <<"description">> => <<"Maximum request processing time">>,
-          <<"required">> => false,
-          <<"type">> => <<"string">>,
-          <<"maxLength">> => 40,
-          <<"minLength">> => 1
-        }, #{
-          <<"name">> => <<"partyId">>,
-          <<"in">> => <<"path">>,
-          <<"description">> => <<"Идентификатор участника">>,
-          <<"required">> => true,
-          <<"type">> => <<"string">>,
-          <<"maxLength">> => 40,
-          <<"minLength">> => 1
-        }, #{
-          <<"name">> => <<"apiKeyId">>,
-          <<"in">> => <<"path">>,
-          <<"description">> => <<"Идентификатор ключа">>,
-          <<"required">> => true,
-          <<"type">> => <<"string">>,
-          <<"maxLength">> => 40,
-          <<"minLength">> => 1
-        }, #{
-          <<"name">> => <<"apiKeyRevokeToken">>,
-          <<"in">> => <<"query">>,
-          <<"description">> => <<"Токен отзыва ключа">>,
-          <<"required">> => true,
-          <<"type">> => <<"string">>,
-          <<"maxLength">> => 4000,
-          <<"minLength">> => 1
-        } ],
-        <<"security">> => [ ],
-        <<"responses">> => #{
-          <<"204">> => #{
-            <<"description">> => <<"Ключ отозван">>
+            <<"description">> => <<"Запрос выполнен">>
           },
           <<"400">> => #{
             <<"description">> => <<"Invalid input data for operation">>,
