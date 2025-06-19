@@ -125,14 +125,6 @@ allowed_methods(
 ) ->
     {[<<"GET">>], Req, State};
 
-allowed_methods(
-    Req,
-    State = #state{
-        operation_id = 'RevokeApiKeyPrivate'
-    }
-) ->
-    {[<<"GET">>], Req, State};
-
 allowed_methods(Req, State) ->
     {[], Req, State}.
 
@@ -310,14 +302,6 @@ is_authorized(
             {{false, AuthHeader}, Req, State}
     end;
 
-is_authorized(
-    Req,
-    State = #state{
-        operation_id  = 'RevokeApiKeyPrivate'
-    }
-) ->
-    {true, Req, State};
-
 is_authorized(Req, State) ->
     {{false, <<"">>}, Req, State}.
 
@@ -420,16 +404,6 @@ valid_content_headers(
     Req0,
     State = #state{
         operation_id = 'RevokeApiKey'
-    }
-) ->
-    Headers = ["X-Request-ID","X-Request-Deadline"],
-    {Result, Req} = validate_headers(Headers, Req0),
-    {Result, Req, State};
-
-valid_content_headers(
-    Req0,
-    State = #state{
-        operation_id = 'RevokeApiKeyPrivate'
     }
 ) ->
     Headers = ["X-Request-ID","X-Request-Deadline"],
@@ -780,34 +754,6 @@ get_request_spec('RevokeApiKey') ->
             rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
 , {required, false}]
         }}
-    ];
-get_request_spec('RevokeApiKeyPrivate') ->
-    [
-        {'X-Request-ID', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 32}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'partyId', #{
-            source => binding,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'apiKeyId', #{
-            source => binding,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'apiKeyRevokeToken', #{
-            source => qs_val,
-            rules  => [{type, 'binary'}, {max_length, 4000}, {min_length, 1}, true
-, {required, true}]
-        }},
-        {'X-Request-Deadline', #{
-            source => header,
-            rules  => [{type, 'binary'}, {max_length, 40}, {min_length, 1}, true
-, {required, false}]
-        }}
     ].
 
 -spec get_response_spec(OperationID :: swag_server_apikeys:operation_id(), Code :: cowboy:http_status()) ->
@@ -914,18 +860,6 @@ get_response_spec('RevokeApiKey', 401) ->
     undefined;
 
 get_response_spec('RevokeApiKey', 404) ->
-    undefined;
-
-get_response_spec('RevokeApiKeyPrivate', 204) ->
-    undefined;
-
-get_response_spec('RevokeApiKeyPrivate', 400) ->
-    {'BadRequest', 'BadRequest'};
-
-get_response_spec('RevokeApiKeyPrivate', 401) ->
-    undefined;
-
-get_response_spec('RevokeApiKeyPrivate', 404) ->
     undefined;
 
 get_response_spec(OperationID, Code) ->

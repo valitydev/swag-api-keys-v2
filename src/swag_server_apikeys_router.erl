@@ -134,10 +134,5 @@ get_operations() ->
             path => "/apikeys/v2/orgs/:partyId/revoke-api-key/:apiKeyId",
             method => <<"GET">>,
             handler => 'swag_server_apikeys_api_keys_handler'
-        },
-        'RevokeApiKeyPrivate' => #{
-            path => "/apikeys/v2/priv/:partyId/revoke-api-key/:apiKeyId",
-            method => <<"GET">>,
-            handler => 'swag_server_apikeys_api_keys_handler'
         }
     }.
