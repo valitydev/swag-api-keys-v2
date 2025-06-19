@@ -22,7 +22,7 @@ put:
         $ref: '#/definitions/RequestRevoke'
   responses:
     '204':
-      description: Запрос на операцию получен
+      description: Запрос выполнен
     "404":
       $ref: "#/responses/NotFound"
     '401':
