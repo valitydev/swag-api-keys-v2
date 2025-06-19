@@ -428,33 +428,7 @@ paths:
             $ref: '#/definitions/RequestRevoke'
       responses:
         '204':
-          description: Запрос на операцию получен
-        '400':
-          $ref: '#/responses/BadRequest'
-        '401':
-          $ref: '#/responses/Unauthorized'
-        '404':
-          $ref: '#/responses/NotFound'
-  '/priv/{partyId}/revoke-api-key/{apiKeyId}':
-    get:
-      summary: Отозвать ключ
-      security: []
-      description: |
-        Ссылка на этот запрос приходит на почту запросившего
-        requestRevokeApiKey, в результате выполнения этого запроса
-        Api Key будет отозван
-      operationId: revokeApiKeyPrivate
-      tags:
-        - apiKeys
-      parameters:
-        - $ref: '#/parameters/requestID'
-        - $ref: '#/parameters/deadline'
-        - $ref: '#/parameters/partyId'
-        - $ref: '#/parameters/apiKeyId'
-        - $ref: '#/parameters/apiKeyRevokeToken'
-      responses:
-        '204':
-          description: Ключ отозван
+          description: Запрос выполнен
         '400':
           $ref: '#/responses/BadRequest'
         '401':
