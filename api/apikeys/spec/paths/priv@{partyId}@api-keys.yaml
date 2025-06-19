@@ -1,6 +1,7 @@
 ---
 get:
   summary: Перечислить ключи организации
+  security: []
   operationId: listApiKeysPrivate
   tags:
     - apiKeys
@@ -47,6 +48,7 @@ get:
 
 post:
   summary: Выпустить новый ключ
+  security: []
   operationId: issueApiKeyPrivate
   tags:
     - apiKeys
